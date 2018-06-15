@@ -2,5 +2,13 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": ">=2.2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "AlbumApi\\": "module/AlbumApi"
+        },
+        "files": [
+            "lib/config.php"
+        ]
     }
 }
