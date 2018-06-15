@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'modules' => require __DIR__ . '/modules.config.php',
+    'modules' => require_once (__DIR__ . '/modules.config.php'),
     'module_listener_options' => array(
         'module_paths' => array(
             ROOT_DIR . '/module',
