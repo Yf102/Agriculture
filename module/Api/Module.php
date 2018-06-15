@@ -1,6 +1,6 @@
 <?php
 
-namespace AlbumApi;
+namespace Api;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;

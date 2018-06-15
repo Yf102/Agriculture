@@ -1,7 +1,7 @@
 <?php
-namespace AlbumApi\Controller;
+namespace Api\Controller;
 
-use AlbumApi\Controller\AbstractRestfulJsonController;
+use Api\Controller\AbstractRestfulJsonController;
 use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractRestfulJsonController

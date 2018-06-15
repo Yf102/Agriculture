@@ -8,5 +8,5 @@
  */
 return array(
     'Zend\Router',
-    'AlbumApi'
+    'Api'
 );

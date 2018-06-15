@@ -1,5 +1,5 @@
 <?php
-namespace AlbumApi\Controller;
+namespace Api\Controller;
 
 use Zend\View\Model\JsonModel;
 

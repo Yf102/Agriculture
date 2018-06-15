@@ -1,26 +1,29 @@
 <?php
 
+use Zend\Router\Http\Segment;
+use Zend\Router\Http\Literal;
+
 return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => \Zend\Router\Http\Literal::class,
+                'type' => Literal::class,
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'AlbumApi\Controller\Index',
+                        'controller' => 'Api\Controller\Index',
                     ),
                 ),
             ),
             'album' => array(
-                'type'    => 'segment',
+                'type'    => Segment::class,
                 'options' => array(
                     'route'    => '/album[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'AlbumApi\Controller\Album',
+                        'controller' => 'Api\Controller\Album',
                     ),
                 ),
             ),
@@ -28,8 +31,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'AlbumApi\Controller\Index' => 'AlbumApi\Controller\IndexController',
-            'AlbumApi\Controller\Album' => 'AlbumApi\Controller\AlbumController',
+            'Api\Controller\Index' => 'Api\Controller\IndexController',
+            'Api\Controller\Album' => 'Api\Controller\AlbumController',
         ),
     ),
     'view_manager' => array(
