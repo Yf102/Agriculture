@@ -2,46 +2,54 @@
 
 namespace Api\Controller;
 
+use Agriculture\Parcels;
 use Agriculture\ParcelsQuery;
 use Zend\View\Model\JsonModel;
 
 class ParcelController extends AbstractRestfulJsonController
 {
-	static $albums = array(
-		array('id' => 1, 'name' => 'Mothership', 'band' => 'Led Zeppelin'),
-		array('id' => 2, 'name' => 'Coda', 'band' => 'Led Zeppelin'),
-	);
-
-	// Action used for GET requests without resource Id
 	public function getList()
-	{
+	{// Action used for GET requests without resource Id
+
 		return new JsonModel(
 			array('data' => ParcelsQuery::create()->find()->toArray())
 		);
 	}
 
-	// Action used for GET requests with resource Id
 	public function get($id)
-	{
+	{// Action used for GET requests with resource Id
+
 		$parcel = ParcelsQuery::create()->findPk($id);
 		return new JsonModel(array("data" => is_null($parcel) ? [] : $parcel->toArray()));
 	}
 
-	// Action used for POST requests
+	/**
+	 * @param mixed $data {ParcelName, Culture, Area}
+	 * @throws \Propel\Runtime\Exception\PropelException
+	 */
 	public function create($data)
-	{
-		return new JsonModel(array('data' => array('id' => 3, 'name' => 'New Album', 'band' => 'New Band')));
+	{// Action used for POST requests
+
+		$parcel = new Parcels();
+		$parcel->fromArray($data, \Propel\Runtime\Map\TableMap::TYPE_PHPNAME);
+		$parcel->save();
+
+		return new JsonModel(array('data' => $parcel->toArray()));
 	}
 
-	// Action used for PUT requests
 	public function update($id, $data)
-	{
-		return new JsonModel(array('data' => array('id' => 3, 'name' => 'Updated Album', 'band' => 'Updated Band')));
+	{// Action used for PUT requests
+
+		$parcel = ParcelsQuery::create()->findPk($id);
+		$parcel->fromArray($data);
+		$parcel->save();
+
+		return new JsonModel(array('data' => $parcel->toArray()));
 	}
 
-	// Action used for DELETE requests
 	public function delete($id)
-	{
-		return new JsonModel(array('data' => 'album id 3 deleted'));
+	{// Action used for DELETE requests
+		ParcelsQuery::create()->findPk($id)->delete();
+		return new JsonModel(array("data" => "Parcels with id $id was successfully deleted"));
 	}
 }
