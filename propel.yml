@@ -1,0 +1,14 @@
+propel:
+  paths:
+    projectDir: %env.PWD%
+
+  database:
+    connections:
+      default:
+        adapter: sqlite
+        dsn: sqlite:%projectDir%/var/agriculture.db
+        user: root
+        password:
+        classname: Propel\Runtime\Connection\DebugPDO
+        settings:
+          charset: utf8

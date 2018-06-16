@@ -4,4 +4,12 @@
 composer.lock
 composer.phar
 vendor
-.idea
+
+# VAR folder
+var
+
+## ORM/DB related
+module/orm/Agriculture/Base
+module/orm/Agriculture/Map
+module/orm/generated-conf
+module/orm/generated-sql/

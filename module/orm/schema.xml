@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" namespace="Agriculture" defaultPhpNamingMethod="underscore"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
+
+    <table name="PARCELS" idMethod="native" phpName="Parcels">
+        <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="PARCEL_NAME" phpName="ParcelName" type="VARCHAR" size="255" required="true"/>
+        <column name="CULTURE" phpName="Culture" type="VARCHAR" size="255" required="true" />
+        <column name="AREA" phpName="Area" type="FLOAT" />
+    </table>
+
+    <table name="TRACTORS" idMethod="native" phpName="Tractors">
+        <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="TRACTOR_NAME" phpName="TractorName" type="VARCHAR" size="255" required="true"/>
+    </table>
+
+    <table name="PROCESSED_PARCELS" idMethod="native" phpName="ProcessedParcels">
+		<column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+		<column name="PARCEL_ID" phpName="ParcelId" type="INTEGER" required="true"/>
+		<column name="TRACTOR_ID" phpName="TractorId" type="INTEGER" required="true"/>
+		<column name="PROCESSED_DATE" phpName="ProcessedDate" type="INTEGER" description="Date will be stored as a timestamp"/>
+		<column name="AREA" phpName="Area" type="FLOAT" required="true"/>
+
+		<!-- Behaviours -->
+		<behavior name="timestampable" />
+
+        <!-- Foreign keys and indexes -->
+        <foreign-key foreignTable="PARCELS" name="FK_processed_parcel" onDelete="CASCADE">
+            <reference local="PARCEL_ID" foreign="ID"/>
+        </foreign-key>
+		<foreign-key foreignTable="TRACTORS" name="FK_processed_tractor" onDelete="CASCADE">
+			<reference local="TRACTOR_ID" foreign="ID"/>
+		</foreign-key>
+    </table>
+</database>

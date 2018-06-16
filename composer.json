@@ -1,12 +1,16 @@
 {
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": ">=2.2.4"
+        "zendframework/zendframework": ">=2.2.4",
+		"propel/propel": "~2.0@dev"
     },
     "autoload": {
         "psr-4": {
             "Api\\": "module/Api"
         },
+		"classmap": [
+			"module/orm/Agriculture/"
+		],
         "files": [
             "lib/config.php"
         ]
