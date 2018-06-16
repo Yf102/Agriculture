@@ -8,6 +8,6 @@ class IndexController extends AbstractRestfulJsonController
 {
     public function getList()
     {
-        return new JsonModel(array('data' => "Welcome to the Zend Framework Album API example"));
+        return new JsonModel(array('data' => "Welcome to the Agriculture's API"));
     }
 }
