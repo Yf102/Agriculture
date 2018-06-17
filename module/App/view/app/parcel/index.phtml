@@ -1,0 +1,85 @@
+<?php /**
+ * Created by PhpStorm.
+ * User: filiphristov
+ * Date: 17/06/2018
+ * Time: 14:55
+ */ ?>
+
+<div class="table-responsive">
+	<table id="parcelList" name="parcelList"
+	   data-toolbar="#parcel-toolbar"
+	   data-search="true"
+	   data-trim-on-search="false"
+	   data-show-refresh="true"
+	   data-minimum-count-columns="2"
+	   data-pagination="true"
+	   data-id-field="email"
+	   data-page-list="[10, 25, 50, 100]"
+	   data-show-footer="false">
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		// initialize parcel table
+		var $table = $('#parcelList');
+		$table.bootstrapTable({
+			url: '<?php echo  $this->url('api/parcel') ?>',
+			mobileResponsive: true,
+			checkOnInit: true,
+			minWidth: 768,
+			formatNoMatches: function () {
+				var isSearchActive = $table.parents('.bootstrap-table').find('.search > input').val();
+
+				if(isSearchActive) {
+					return 'No matching records found';
+				}
+
+				return '<span>This agriculture does not have any parcels yet. Click <a class="cursor-pointer bold" id="add-parcel" href="<?php echo $this->url('app/parcel', array('action' => 'add')) ?>">here</a> to add some.</span>';
+			},
+			columns: [
+				{
+					field: 'ParcelName',
+					title: 'Parcel Name',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						var name = (row.ParcelName);
+						if (name) {
+							return '<span title="' + name + '">' + charesc(name) + '</span>';
+						}
+					}
+				},
+				{
+					field: 'Culture',
+					title: 'Culture',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						var culture = (row.Culture);
+						return '<span class="rcp-name" title="' + culture + '">' + charesc(culture) + '</span>';
+					}
+				},
+				{
+					field: 'Area',
+					title: 'Area',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						var area = (row.Area);
+						return '<span class="rcp-name" title="' + area + '">' + charesc(area) + '</span>';
+					}
+				}
+			],
+			onToggle: function (some_bool) {
+				var ggg = "";
+			},
+			onLoadSuccess: function (response) {
+				var ggg = "";
+			},
+			onLoadError: function (status, response) {
+				console.error(response);
+			}
+		});
+	});
+</script>

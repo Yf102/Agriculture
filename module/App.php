@@ -41,7 +41,8 @@ class AppResult
 	}
 
 	public function render() {
-		return new \Zend\View\Model\JsonModel(array($this->to_json()));
+//		return new \Zend\View\Model\JsonModel(array($this->to_json()));
+		return new \Zend\View\Model\JsonModel($this->data);
 	}
 }
 

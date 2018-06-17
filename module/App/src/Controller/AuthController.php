@@ -29,21 +29,12 @@ class AuthController extends AbstractActionController
 		return array();
 	}
 
-	public function onDispatch(MvcEvent $e)
-	{
-		if(is_null($this->app->curUser())) {
-//			return $this->redirect()->toRoute('login');
-		}
-
-		return parent::onDispatch($e);
-	}
-
 	public function authenticateAction() {
 		/* @param $request \Zend\Stdlib\Request */
 		$request = $this->getRequest();
 		if ($request->isPost()){
 			if($this->app->login($request->getPost('email'), $request->getPost('password'))) {
-				return $this->redirect()->toRoute('login');
+				return $this->redirect()->toRoute('app/parcel');
 			}
 		}
 
