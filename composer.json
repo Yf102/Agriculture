@@ -12,7 +12,8 @@
 			"module/orm/Agriculture/"
 		],
         "files": [
-            "lib/config.php"
+            "lib/config.php",
+			"module/App.php"
         ]
     }
 }
