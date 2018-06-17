@@ -11,16 +11,14 @@ class ParcelController extends AbstractRestfulJsonController
 	public function getList()
 	{// Action used for GET requests without resource Id
 
-		return new JsonModel(
-			array('data' => ParcelsQuery::create()->find()->toArray())
-		);
+		$result = new \AppResult(200, false, '', ParcelsQuery::create()->find()->toArray());
+		return $result->render();
 	}
 
 	public function get($id)
 	{// Action used for GET requests with resource Id
-
-		$parcel = ParcelsQuery::create()->findPk($id);
-		return new JsonModel(array("data" => is_null($parcel) ? [] : $parcel->toArray()));
+		$result = new \AppResult(200, false, '', ParcelsQuery::create()->findPk($id)->toArray());
+		return $result->render();
 	}
 
 	/**
@@ -34,7 +32,8 @@ class ParcelController extends AbstractRestfulJsonController
 		$parcel->fromArray($data, \Propel\Runtime\Map\TableMap::TYPE_PHPNAME);
 		$parcel->save();
 
-		return new JsonModel(array('data' => $parcel->toArray()));
+		$result = new \AppResult(200, false, '', $parcel->toArray());
+		return $result->render();
 	}
 
 	public function update($id, $data)
@@ -44,12 +43,15 @@ class ParcelController extends AbstractRestfulJsonController
 		$parcel->fromArray($data);
 		$parcel->save();
 
-		return new JsonModel(array('data' => $parcel->toArray()));
+		$result = new \AppResult(200, false, '', $parcel->toArray());
+		return $result->render();
 	}
 
 	public function delete($id)
 	{// Action used for DELETE requests
 		ParcelsQuery::create()->findPk($id)->delete();
-		return new JsonModel(array("data" => "Parcels with id $id was successfully deleted"));
+
+		$result = new \AppResult(200, false, "Parcels with id $id was successfully deleted", '');
+		return $result->render();
 	}
 }

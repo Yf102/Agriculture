@@ -1,7 +1,6 @@
 <?php
 namespace Api\Controller;
 
-use Api\Controller\AbstractRestfulJsonController;
 use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractRestfulJsonController

@@ -11,7 +11,7 @@ return array(
 				'options' => array(
 					'route'    => '/api',
 					'defaults' => array(
-						'controller' => \Api\Controller\IndexController::class,
+						'controller' => 'Api\Index',
 					),
 				),
 				'may_terminate' => true,
@@ -24,7 +24,31 @@ return array(
 								'id'     => '[0-9]+',
 							),
 							'defaults' => array(
-								'controller' => \Api\Controller\ParcelController::class,
+								'controller' => 'Api\Parcel',
+							),
+						),
+					),
+					'tractor' => array(
+						'type'    => Segment::class,
+						'options' => array(
+							'route'    => '/tractor[/:id]',
+							'constraints' => array(
+								'id'     => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => 'Api\Tractor',
+							),
+						),
+					),
+					'processing' => array(
+						'type'    => Segment::class,
+						'options' => array(
+							'route'    => '/processing[/:id]',
+							'constraints' => array(
+								'id'     => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => 'Api\Processed',
 							),
 						),
 					),
@@ -34,8 +58,10 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Api\Controller\Index' => 'Api\Controller\IndexController',
-            'Api\Controller\Album' => 'Api\Controller\ParcelController',
+            'Api\Index' => \Api\Controller\IndexController::class,
+            'Api\Parcel' => \Api\Controller\ParcelController::class,
+			'Api\Tractor' => \Api\Controller\TractorController::class,
+			'Api\Processed' => \Api\Controller\ProcessedController::class
         ),
     ),
     'view_manager' => array(
