@@ -1,7 +1,50 @@
-<?php
-/**
+<?php /**
  * Created by PhpStorm.
  * User: filiphristov
  * Date: 17/06/2018
  * Time: 14:55
- */
+ */ ?>
+
+<form id="add-form">
+	<div class="form-group">
+		<label for="ParcelName">Name:</label>
+		<input name="ParcelName" class="form-control" id="ParcelName">
+	</div>
+	<div class="form-group">
+		<label for="Culture">Culture:</label>
+		<input name="Culture" class="form-control" id="Culture">
+	</div>
+	<div class="form-group">
+		<label for="Area">Area:</label>
+		<input step="any" type="number" name="Area" class="form-control" id="Area">
+	</div>
+	<button id="addBtn" style="margin-top: 10px" type="submit" class="btn btn-default">Add</button>
+</form>
+
+<script>
+	$(function () {
+		$('#add-form').submit(function (ev) {
+			ev.preventDefault();
+
+			var obj = {};
+			
+			$(this).find('input').each(function () {
+				obj[this.id] = this.value;
+			});
+
+			$.ajax({
+				url: '<?php echo $this->url('api/parcel') ?>',
+				type: 'POST',
+				data: obj,
+				dataType: 'application/json',
+				success: function (result) {
+					location.pathname = '<?php echo $this->url('app/parcel') ?>';
+				},
+				error: function(err) {
+					console.log(err);
+					location.pathname = '<?php echo $this->url('app/parcel') ?>';
+				}
+			});
+		});
+	});
+</script>

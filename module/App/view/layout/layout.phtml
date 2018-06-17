@@ -37,16 +37,17 @@ echo $this->doctype(); ?>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<span class="brand">Agriculture</span>
+			<a class="brand" href="<?php echo $this->url('app/parcel') ?>">Agriculture</a>
 			<div class="nav-collapse collapse">
 				<?php
-//					if(!is_null($this->app->curUser())) {
-//						echo '
-//							<ul class="nav">
-//								<li class="active"><a href="#">Home</a></li>
-//							</ul>
-//						';
-//					}
+					if(!is_null($this->app->curUser())) {
+						echo '
+							<ul class="nav">
+								<li class=""><a href="'.$this->url('app/parcel', array('action' => 'add')).'">Add parcel</a></li>
+								<li class=""><a href="#">Add tractor</a></li>
+							</ul>
+						';
+					}
 				?>
 			</div><!--/.nav-collapse -->
 			<div class="logout_container">
