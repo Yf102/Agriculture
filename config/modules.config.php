@@ -8,5 +8,6 @@
  */
 return array(
     'Zend\Router',
+    'App',
     'Api'
 );
