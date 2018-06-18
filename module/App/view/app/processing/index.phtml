@@ -1,0 +1,161 @@
+<?php /**
+ * Created by PhpStorm.
+ * User: filiphristov
+ * Date: 18/06/2018
+ * Time: 09:10
+ */ ?>
+
+<div class="parcel-info" style="display: flex; flex-direction: column;">
+	<span>Parcel's area: <span id="parcel_area"></span></span>
+	<span>Total processed area: <span id="processed_area"></span></span>
+	<a id="add_processing_btn" href="#">Add processing</a>
+</div>
+
+<div class="table-responsive">
+	<table id="processingList" name="processingList"
+	   data-toolbar="#processing-toolbar"
+	   data-search="true"
+	   data-trim-on-search="false"
+	   data-show-refresh="true"
+	   data-minimum-count-columns="2"
+	   data-pagination="true"
+	   data-id-field="email"
+	   data-page-list="[10, 25, 50, 100]"
+	   data-show-footer="false">
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		// initialize parcel table
+		var addProcessingUrl = '<?php echo $this->url('app/processing') ?>' + curParcelId() + '/add';
+		$('#add_processing_btn').attr('href', addProcessingUrl);
+
+		var $table = $('#processingList');
+		var apiurl = '<?php echo  $this->url('api/processing') ?>/' + curParcelId();
+		var removeFirstRow = false;
+
+		$table.bootstrapTable({
+			url: apiurl,
+			mobileResponsive: true,
+			checkOnInit: true,
+			minWidth: 768,
+			formatNoMatches: function () {
+			var isSearchActive = $table.parents('.bootstrap-table').find('.search > input').val();
+
+				if(isSearchActive) {
+					return 'No matching records found';
+				}
+
+				return '<span>This parcel does not have any processing yet. Click <a class="cursor-pointer bold" id="add-parcel" href="<?php echo $this->url('app/processing') ?>"/' + curParcelId() + '/add>here</a> to add some.</span>';
+			},
+			columns: [
+				{
+					field: 'ParcelName',
+					title: 'Parcel Name',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						if(typeof row.TotalArea !== "undefined") {
+							removeFirstRow = true;
+							$('#parcel_area').text(row.TotalArea);
+							$('#processed_area').text(row.TotalProcessedArea);
+							return;
+						}
+
+						var name = (row.ParcelName);
+						if (name) {
+							return '<span title="' + name + '">' + charesc(name) + '</span>';
+						}
+					}
+				},
+				{
+					field: 'Culture',
+					title: 'Culture',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						if(typeof row.TotalArea !== "undefined") {
+							return;
+						}
+
+						var culture = (row.Culture);
+						return '<span class="rcp-name" title="' + culture + '">' + charesc(culture) + '</span>';
+					}
+				},
+				{
+					field: 'Date',
+					title: 'Date',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						if(typeof row.TotalArea !== "undefined") {
+							return;
+						}
+
+						var date = (row.Date);
+						return '<span class="rcp-name" title="' + date + '">' + charesc(date) + '</span>';
+					}
+				},
+				{
+					field: 'TractorName',
+					title: 'Tractor Name',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						if(typeof row.TotalArea !== "undefined") {
+							return;
+						}
+
+						var tractor_name = (row.TractorName);
+						return '<span class="rcp-name" title="' + tractor_name + '">' + charesc(tractor_name) + '</span>';
+					}
+				},
+				{
+					field: 'ProcessedArea',
+					title: 'Processed Area',
+					align: 'left',
+					sortable: 'true',
+					formatter: function (value, row, index) {
+						if(typeof row.TotalArea !== "undefined") {
+							return;
+						}
+
+						var area = (row.ProcessedArea);
+						return '<span class="rcp-name" title="' + area + '">' + charesc(area) + '</span>';
+					}
+				}
+			],
+			onResetView: function() {
+				if(removeFirstRow) {
+					removeFirstRow = false;
+					$table.find('tr[data-index=0]').remove();
+					if($table.find('tbody').children().length ===0) {
+						var myTemplate = '' +
+							'<tr class="no-records-found">' +
+								'<td colspan="5">' +
+									'<span>' +
+										'This agriculture does not have any parcels yet. Click ' +
+										'<a class="cursor-pointer bold" id="add-parcel" href="'+addProcessingUrl+'">here</a>' +
+										' to add some.' +
+										'</span>' +
+								'</td>' +
+							'</tr>';
+						$('.bootstrap-table').find('.fixed-table-pagination').hide();
+						$table.find('tbody').html(myTemplate);
+					}
+				}
+			},
+			onLoadError: function (status, response) {
+				console.error(response);
+			}
+		});
+		
+		
+		function curParcelId() {
+			var locationArr = location.href.split('/');
+
+			return locationArr[locationArr.length - 1];
+		}
+	});
+</script>

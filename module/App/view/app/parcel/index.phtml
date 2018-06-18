@@ -46,7 +46,7 @@
 					formatter: function (value, row, index) {
 						var name = (row.ParcelName);
 						if (name) {
-							return '<span title="' + name + '">' + charesc(name) + '</span>';
+							return '<span title="' + name + '"> <a href="<?php echo $this->url('app/processing') ?>' + row.Id + '">' + charesc(name) + '</a></span>';
 						}
 					}
 				},

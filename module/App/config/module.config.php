@@ -52,10 +52,39 @@ return array(
 						'options' => array(
 							'route'    => '/parcel[/:action]',
 							'constraints' => array(
-								'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
 								'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
 							),
 							'defaults' => array(
+								'__NAMESPACE__' => 'App\Controller',
+								'controller' => 'Parcel',
+								'action'        => 'index',
+							),
+						),
+					),
+					'tractor' => array(
+						'type'    => \Zend\Router\Http\Segment::class,
+						'options' => array(
+							'route'    => '/tractor[/:action]',
+							'constraints' => array(
+								'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+							),
+							'defaults' => array(
+								'__NAMESPACE__' => 'App\Controller',
+								'controller' => 'Tractor',
+								'action'        => 'index',
+							),
+						),
+					),
+					'processing' => array(
+						'type'    => \Zend\Router\Http\Segment::class,
+						'options' => array(
+							'route'    => '/processing/[:id[/:action]]',
+							'constraints' => array(
+								'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+							),
+							'defaults' => array(
+								'__NAMESPACE__' => 'App\Controller',
+								'controller' => 'Processing',
 								'action'        => 'index',
 							),
 						),
@@ -67,7 +96,9 @@ return array(
 	'controllers' => array(
 		'invokables' => array(
 			'App\Controller\Auth'    => 'App\Controller\AuthController',
-			'App\Controller\Parcel'	 => 'App\Controller\ParcelController'
+			'App\Controller\Parcel'	 => 'App\Controller\ParcelController',
+			'App\Controller\Processing' => 'App\Controller\ProcessingController',
+			'App\Controller\Tractor' => 'App\Controller\TractorController'
 		),
 	),
 	'view_manager' => array(
