@@ -66,7 +66,7 @@ class ProcessedController extends AbstractRestfulJsonController
 	{
 		$parcel = ParcelsQuery::create()->findPk($data["ParcelId"]);
 
-		if($parcel->getArea() < $data["ProcessedArea"]) {
+		if($parcel->getArea() < $data["Area"]) {
 			$result = new \AppResult(409, true, 'Area can\'t be larger then parcel\'s total area.');
 			return $result->render();
 		}

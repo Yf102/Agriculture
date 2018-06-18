@@ -21,7 +21,9 @@ class ProcessingController extends AbstractActionController
 	}
 
 	public function addAction() {
-		return array();
+		return array(
+			"parcelId" => $this->getEvent()->getRouteMatch()->getParams()['id']
+		);
 	}
 
 	public function onDispatch(MvcEvent $e)

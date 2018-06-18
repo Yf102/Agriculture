@@ -60,3 +60,9 @@ div.logout_container a:hover {
 	color: #fff;
 	background-color: transparent;
 }
+
+form.adding-processing-container {
+	display: flex;
+	flex-direction: column;
+	width: 220px;
+}

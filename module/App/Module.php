@@ -12,6 +12,10 @@ class Module
 		session_start();
 
 		$this->app = new \AgricultureApp();
+
+//		if(is_null($this->app->curUser())) {
+////			$this->redirect()->toRoute('login');
+//		}
 	}
 
 	public function onBootstrap(MvcEvent $e) {

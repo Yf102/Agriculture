@@ -14,8 +14,7 @@
 <div class="table-responsive">
 	<table id="processingList" name="processingList"
 	   data-toolbar="#processing-toolbar"
-	   data-search="true"
-	   data-trim-on-search="false"
+	   data-search="false"
 	   data-show-refresh="true"
 	   data-minimum-count-columns="2"
 	   data-pagination="true"
@@ -33,7 +32,8 @@
 
 		var $table = $('#processingList');
 		var apiurl = '<?php echo  $this->url('api/processing') ?>/' + curParcelId();
-		var removeFirstRow = false;
+		var removeRow = false;
+		var removeRowIndex = -1;
 
 		$table.bootstrapTable({
 			url: apiurl,
@@ -57,7 +57,8 @@
 					sortable: 'true',
 					formatter: function (value, row, index) {
 						if(typeof row.TotalArea !== "undefined") {
-							removeFirstRow = true;
+							removeRow = true;
+							removeRowIndex = index;
 							$('#parcel_area').text(row.TotalArea);
 							$('#processed_area').text(row.TotalProcessedArea);
 							return;
@@ -93,8 +94,9 @@
 							return;
 						}
 
-						var date = (row.Date);
-						return '<span class="rcp-name" title="' + date + '">' + charesc(date) + '</span>';
+						var parsedDate = parseTStoDate(row.Date);
+
+						return '<span class="rcp-name" title="' + row.Date + '">' + parseTStoDate(row.Date) + '</span>';
 					}
 				},
 				{
@@ -127,9 +129,11 @@
 				}
 			],
 			onResetView: function() {
-				if(removeFirstRow) {
-					removeFirstRow = false;
-					$table.find('tr[data-index=0]').remove();
+				if(removeRow) {
+					$table.find('tr[data-index='+removeRowIndex+']').remove();
+					removeRow = false;
+					removeRowIndex = -1;
+
 					if($table.find('tbody').children().length ===0) {
 						var myTemplate = '' +
 							'<tr class="no-records-found">' +
@@ -150,7 +154,12 @@
 				console.error(response);
 			}
 		});
-		
+
+		function parseTStoDate(ts) {
+			var date = new Date(ts);
+
+			return ("0" + date.getDate()).slice(-2) + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+		}
 		
 		function curParcelId() {
 			var locationArr = location.href.split('/');

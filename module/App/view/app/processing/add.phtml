@@ -1,9 +1,93 @@
-<?php
-/**
+<?php /**
  * Created by PhpStorm.
  * User: filiphristov
  * Date: 18/06/2018
  * Time: 09:28
- */
+ */ ?>
 
-echo "Adding";
+<form id="processing_form" class="adding-processing-container">
+	<select id="tractors_select">
+		<option value="0" disabled selected value>Select Tractor</option>
+	</select>
+
+	<input id="processing_area" type="number" step="any" min="0">
+
+	<input id="processing_date" type="date"><br>
+	<button id="addBtn" style="margin-top: 10px" type="submit" class="btn btn-default">Add</button>
+</form>
+
+
+<script>
+	$(function () {
+		// Populate tractors select
+		$.ajax({
+			url: '<?php echo $this->url('api/tractor') ?>',
+			type: 'GET',
+			success: function (result) {
+				$(result).each(function() {
+					$('#tractors_select').append($("<option />").val(this.Id).text(this.TractorName));
+				});
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+
+		// Get max area
+		$.ajax({
+			url: '<?php echo $this->url('api/parcel') .'/'. $this->parcelId ?>',
+			type: 'GET',
+			success: function (result) {
+				$('#processing_area').attr('max', result.Area);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+
+		// set min date today
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd
+		}
+		if(mm<10){
+			mm='0'+mm
+		}
+
+		today = yyyy+'-'+mm+'-'+dd;
+		$('#processing_date').attr("min", today);
+
+		// Set event for submitting form
+		$("#processing_form").submit(function (ev) {
+			ev.preventDefault();
+			if ($.trim($('#processing_date').val()) === "" || $.trim($('#processing_area').val()) === "" || $('#tractors_select').val() == null) {
+				alert('you did not fill out one of the fields');
+				return false;
+			}
+
+			var obj = {
+				"ParcelId": '<?php echo $this->parcelId ?>',
+				"TractorId": $('#tractors_select').val(),
+				"ProcessedDate": (new Date($("#processing_date").val())).getTime(),
+				"Area": $('#processing_area').val()
+			};
+
+			$.ajax({
+				url: '<?php echo $this->url('api/processing') ?>',
+				type: 'POST',
+				data: obj,
+				dataType: 'application/json',
+				success: function (result) {
+					location.pathname = '<?php echo $this->url('app/processing') . $this->parcelId ?>';
+				},
+				error: function(err) {
+					console.log(err);
+					location.pathname = '<?php echo $this->url('app/processing') . $this->parcelId ?>';
+				}
+			});
+		});
+	});
+</script>
